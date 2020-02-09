@@ -78,7 +78,6 @@ HEADERS  += \
 
 LIBS       += -lVLCQtCore -lVLCQtWidgets
 
-FORMS += \
-    player.ui
+FORMS +=
 
 

@@ -7,15 +7,18 @@
 #include <VLCQtCore/Media.h>
 #include <VLCQtCore/MediaPlayer.h>
 #include <VLCQtCore/Audio.h>
+#include <VLCQtCore/Video.h>
 
 Player::Player(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::Player),
     mMedia(0)
 {
+    setupUi();
+
     mInstance = new VlcInstance(VlcCommon::args(), this);
     mPlayer = new VlcMediaPlayer(mInstance);
-    mPlayer->setVideoWidget(ui->video);
+    mPlayer->setVideoWidget(mVideo);
+    mVideo->setMediaPlayer(mPlayer);
 }
 
 Player::~Player()
@@ -23,7 +26,11 @@ Player::~Player()
     delete mPlayer;
     delete mMedia;
     delete mInstance;
-    delete ui;
+
+    // UI
+    delete mCentralWidget;
+    delete mGridLayout;
+    delete mVideo;
 }
 
 QString Player::mediaName() const
@@ -54,6 +61,17 @@ bool Player::setMediaName(const QString &mediaName)
     }
 
     return out;
+}
+
+void Player::reset()
+{
+    if (mMedia) {
+        mMediaName.clear();
+        mPlayer->stop();
+        delete mMedia;
+        mMedia = 0;
+        mPlayer->openOnly(mMedia);
+    }
 }
 
 QString Player::location() const
@@ -98,4 +116,15 @@ void Player::setPlaying(const bool &playing)
     playing ?
        mPlayer->play() :
        mPlayer->pause();
+}
+
+void Player::setupUi()
+{
+    mCentralWidget = new QWidget(this);
+    mGridLayout = new QGridLayout(mCentralWidget);
+    mGridLayout->setSpacing(0);
+    mGridLayout->setContentsMargins(0, 0, 0, 0);
+    mVideo = new VlcWidgetVideo(mCentralWidget);
+    mGridLayout->addWidget(mVideo, 0, 0, 1, 1);
+    this->setCentralWidget(mCentralWidget);
 }

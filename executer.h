@@ -2,11 +2,8 @@
 #define EXECUTER_H
 
 #include <QObject>
+#include <QProcess>
 #include "./interface/abstractexecuter.h"
-
-/* command prios:
-  (play, stop -> override all), (pause, seek, vol), status
-  */
 
 class Player;
 
@@ -25,7 +22,11 @@ public slots:
     QString setStatus(const MStatusWrapper &status);
 
 private:
-    Player *mPlayer;
+    Player  *mPlayer;
+    QProcess mStreamProcess;
+
+    bool stopStream();
+    bool startStream(const QString &file);
 };
 
 #endif // EXECUTER_H

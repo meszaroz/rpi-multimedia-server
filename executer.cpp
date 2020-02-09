@@ -34,22 +34,46 @@ QString Executer::setStatus(const MStatusWrapper &status)
 
         // start video if valid and start streaming
         if (mPlayer->setMediaName(cont->act)) {
-            // ToDo: start streaming mPlayer->location();
-        }
-
-        // set status
-        if (mPlayer->hasMediaName()) {
-            mPlayer->setTime   (cont->pos );
-            mPlayer->setVolume (cont->vol );
-            mPlayer->setPlaying(cont->play);
+            // start stream and set status
+            if (startStream(mPlayer->location())) {
+                mPlayer->setTime   (cont->pos );
+                mPlayer->setVolume (cont->vol );
+                mPlayer->setPlaying(cont->play);
+            }
+            else {
+                out = "Unable to start stream";
+            }
         }
         else {
-            out = "File not opened";
+            out = "Media not set";
         }
     }
     else {
         out = "Status is invalid";
     }
 
+    // if error, reset player
+    if (!out.isEmpty()) {
+        mPlayer->reset();
+    }
+
     return out;
+}
+
+bool Executer::stopStream()
+{
+    if (mStreamProcess.state() != QProcess::NotRunning) {
+        mStreamProcess.kill();
+    }
+
+    return mStreamProcess.state() == QProcess::NotRunning;
+}
+
+bool Executer::startStream(const QString &file)
+{
+    if (stopStream()) {
+        mStreamProcess.start("./tools/stream-mp4", QStringList(file));
+    }
+
+    return mStreamProcess.state() != QProcess::NotRunning;
 }

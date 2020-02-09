@@ -2,14 +2,12 @@
 #define PLAYER_H
 
 #include <QMainWindow>
-
-namespace Ui {
-    class Player;
-}
+#include <QGridLayout>
 
 class VlcInstance;
 class VlcMedia;
 class VlcMediaPlayer;
+class VlcWidgetVideo;
 
 class Player : public QMainWindow
 {
@@ -17,6 +15,8 @@ class Player : public QMainWindow
 public:
     explicit Player(QWidget *parent = nullptr);
     ~Player();
+
+    void reset();
 
     QString mediaName() const;
     bool hasMediaName() const;
@@ -39,12 +39,17 @@ signals:
 public slots:
 
 private:
-    Ui::Player *ui;
-
     VlcInstance    *mInstance;
     VlcMediaPlayer *mPlayer;
     VlcMedia       *mMedia;
     QString         mMediaName; // resource name -> path is extracted from this
+
+    // UI
+    QWidget        *mCentralWidget;
+    QGridLayout    *mGridLayout;
+    VlcWidgetVideo *mVideo;
+
+    void setupUi();
 };
 
 #endif // PLAYER_H
