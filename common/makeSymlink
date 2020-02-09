@@ -1,0 +1,7 @@
+#! /bin/bash
+for name in *.c
+do
+  newname="$name""pp"
+  echo "create symlink $newname to $name"
+  ln -s $name $newname
+done
