@@ -99,7 +99,7 @@ void BusinessLogic::sendImage(Buffer *buffer, const qintptr socketId)
 
 void BusinessLogic::sendPathList(const qintptr socketId)
 {
-    QStringList pathList = mResources->pathList();
+    QStringList pathList = mResources->folderList();
     broadcastData(MListWrapper(pathList), socketId);
 }
 

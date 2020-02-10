@@ -53,7 +53,7 @@ public:
     ResourceContainer(const QStringList &paths, QObject *parent = nullptr);
     ~ResourceContainer();
 
-    QStringList folderList(const QString &path = QString());
+    QStringList folderList(const QString &path = QString()) const;
     QStringList pathList() const;
 
 public slots:
@@ -72,7 +72,7 @@ private:
     void storePaths(const QStringList &paths);
     void connectSignals();
 
-    QStringList filterPathList(const QString &path);
+    QStringList filterPathList(const QString &path) const;
 
     void checkPathAndUpdate(const QString &path);
     void removePath(const QString &path);

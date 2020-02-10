@@ -111,7 +111,7 @@ ResourceContainer::~ResourceContainer()
         removeDataInfo(item);
 }
 
-QStringList ResourceContainer::folderList(const QString &path)
+QStringList ResourceContainer::folderList(const QString &path) const
 {
     QStringList out;
     foreach (const QString &item, filterPathList(path)) {
@@ -139,7 +139,7 @@ void ResourceContainer::loadResource(const QString &path)
     emitList();
 }
 
-QStringList ResourceContainer::filterPathList(const QString &path)
+QStringList ResourceContainer::filterPathList(const QString &path) const
 {
     QStringList dirList = mWatcher->directories();
     return !path.isEmpty() ?

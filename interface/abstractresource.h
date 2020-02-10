@@ -11,7 +11,7 @@ public:
     AbstractResourceContainer(QObject *parent = nullptr);
     virtual ~AbstractResourceContainer();
 
-    virtual QStringList pathList() const = 0;
+    virtual QStringList folderList(const QString &path = QString()) const = 0;
 };
 
 #endif // ABSTRACTRESOURCE_H

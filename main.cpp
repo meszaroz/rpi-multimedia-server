@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
     Service service(argc, argv);
     return service.exec();
 */
+    qRegisterMetaType<qintptr>("qintptr");
+    
     QApplication app(argc, argv);
     VlcCommon::setPluginPath(app.applicationDirPath() + "/plugins");
 
