@@ -9,6 +9,10 @@ class VlcMedia;
 class VlcMediaPlayer;
 class VlcWidgetVideo;
 
+namespace UI {
+    class Player;
+}
+
 class Player : public QMainWindow
 {
     Q_OBJECT
@@ -39,17 +43,30 @@ signals:
 public slots:
 
 private:
+    UI::Player     *mUi;
     VlcInstance    *mInstance;
     VlcMediaPlayer *mPlayer;
     VlcMedia       *mMedia;
     QString         mMediaName; // resource name -> path is extracted from this
-
-    // UI
-    QWidget        *mCentralWidget;
-    QGridLayout    *mGridLayout;
-    VlcWidgetVideo *mVideo;
-
-    void setupUi();
 };
+
+namespace UI {
+    class Player : public QObject
+    {
+        Q_OBJECT
+    public:
+        explicit Player(::Player *player);
+        ~Player();
+
+        VlcWidgetVideo *video();
+
+    private:
+        QWidget        *mCentralWidget;
+        QGridLayout    *mGridLayout;
+        VlcWidgetVideo *mVideo;
+
+        void setupUi(::Player *player);
+    };
+}
 
 #endif // PLAYER_H
