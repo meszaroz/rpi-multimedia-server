@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "businesslogic.h"
 #include "./interface/abstractexecuter.h"
 #include "./interface/abstractresource.h"
@@ -12,6 +13,9 @@ BusinessLogic::BusinessLogic(AbstractExecuter *executer, AbstractResourceContain
     mExecuter (executer),
     mResources(resources)
 {
+    assert(executer  != nullptr);
+    assert(resources != nullptr);
+    
     connect(mResources, SIGNAL(folderListChanged(QStringList)),
             this,       SLOT  (folderListChanged()));
 }
