@@ -34,23 +34,15 @@ MStatusWrapper Executer::status() const
 QString Executer::setStatus(const MStatusWrapper &status)
 {
     QString out;
+    const StatusContainer *cont = status.container();
 
     if (status.isValid()) {
-        const StatusContainer *cont = status.container();
-
-        // start video if valid and start streaming
         if (mPlayer->setMediaName(cont->act)) {
-            // start stream and set status
-            if (startStream(mPlayer->location())) {
-                mPlayer->setTime   (cont->pos );
-                mPlayer->setVolume (cont->vol );
-                mPlayer->setPlaying(cont->play);
-            }
-            else {
+            if (!startStream(mPlayer->location())) {
                 out = "Unable to start stream";
             }
         }
-        else {
+        else if (mPlayer->mediaName() != QString(cont->act)) {
             out = "Media not set";
         }
     }
@@ -61,6 +53,12 @@ QString Executer::setStatus(const MStatusWrapper &status)
     // if error, reset player
     if (!out.isEmpty()) {
         mPlayer->reset();
+    }
+    // success -> set status
+    else {
+        mPlayer->setTime   (cont->pos );
+        mPlayer->setVolume (cont->vol );
+        mPlayer->setPlaying(cont->play);
     }
 
     return out;
