@@ -63,7 +63,8 @@ QString Executer::setStatus(const MStatusWrapper &status)
 bool Executer::stopStream()
 {
     if (mStreamProcess.state() != QProcess::NotRunning) {
-        mStreamProcess.kill();
+        mStreamProcess.close();
+        mStreamProcess.waitForFinished();
     }
 
     return mStreamProcess.state() == QProcess::NotRunning;
@@ -73,6 +74,7 @@ bool Executer::startStream(const QString &file)
 {
     if (stopStream()) {
         mStreamProcess.start("./tools/stream-mp4", QStringList(file));
+        mStreamProcess.waitForStarted();
     }
 
     return mStreamProcess.state() != QProcess::NotRunning;
