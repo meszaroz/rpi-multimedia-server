@@ -11,7 +11,10 @@ BusinessLogic::BusinessLogic(AbstractExecuter *executer, AbstractResourceContain
     AbstractBusinessLogic(parent),
     mExecuter (executer),
     mResources(resources)
-{}
+{
+    connect(mResources, SIGNAL(folderListChanged(QStringList)),
+            this,       SLOT  (folderListChanged()));
+}
 
 BusinessLogic::~BusinessLogic()
 {
@@ -33,7 +36,7 @@ void BusinessLogic::processData(Buffer *buffer, const qintptr socketId)
                 break;
             }
             case List: {
-                sendPathList(socketId);
+                sendFolderList(socketId);
                 break;
             }
             case Check: {
@@ -97,7 +100,7 @@ void BusinessLogic::sendImage(Buffer *buffer, const qintptr socketId)
     broadcastData(MImageWrapper(buffer), socketId);
 }
 
-void BusinessLogic::sendPathList(const qintptr socketId)
+void BusinessLogic::sendFolderList(const qintptr socketId)
 {
     QStringList pathList = mResources->folderList();
     broadcastData(MListWrapper(pathList), socketId);
@@ -111,5 +114,11 @@ void BusinessLogic::sendCheck(const qintptr socketId)
 void BusinessLogic::sendError(const QString &message, const qintptr socketId)
 {
     broadcastData(MErrorWrapper(message), socketId);
+}
+
+// broadcast folder list to all clients
+void BusinessLogic::folderListChanged()
+{
+    sendFolderList(-1);
 }
 

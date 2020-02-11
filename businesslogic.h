@@ -19,6 +19,7 @@ public:
     ~BusinessLogic();
 
 public slots:
+    void folderListChanged();
     void processData(Buffer *buffer, const qintptr socketId);
 
 signals:
@@ -36,7 +37,7 @@ private:
     void setStatus(Buffer *buffer, const qintptr socketId);
 
     void sendImage(Buffer *buffer, const qintptr socketId);
-    void sendPathList(const qintptr socketId);
+    void sendFolderList(const qintptr socketId);
     void sendCheck(const qintptr socketId);
     void sendError(const QString &message, const qintptr socketId);    
 };
