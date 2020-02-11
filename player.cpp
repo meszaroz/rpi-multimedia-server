@@ -33,7 +33,8 @@ QString Player::mediaName() const
     return mMediaName;
 }
 
-bool Player::hasMediaName() const {
+bool Player::hasMediaName() const
+{
     return !mediaName().isEmpty();
 }
 
@@ -63,7 +64,7 @@ void Player::reset()
     if (mMedia) {
         mPlayer->stop();
         delete mMedia;
-        mMedia = 0;
+        mMedia = nullptr;
         mPlayer->openOnly(mMedia);
         mMediaName.clear();
     }
@@ -113,7 +114,10 @@ void Player::setVolume(const int &volume)
 
 bool Player::playing() const
 {
-    return mMedia && mPlayer->state() == Vlc::Playing;
+    return mMedia
+       && (   mPlayer->state() == Vlc::Opening
+           || mPlayer->state() == Vlc::Buffering
+           || mPlayer->state() == Vlc::Playing);
 }
 
 void Player::setPlaying(const bool &playing)
@@ -132,12 +136,13 @@ UI::Player::Player(::Player *player)
 
 UI::Player::~Player()
 {
-    delete mCentralWidget;
     delete mGridLayout;
     delete mVideo;
+    delete mCentralWidget;
 }
 
-VlcWidgetVideo *UI::Player::video() {
+VlcWidgetVideo *UI::Player::video()
+{
     return mVideo;
 }
 

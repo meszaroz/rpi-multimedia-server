@@ -22,6 +22,9 @@ public slots:
     void folderListChanged();
     void processData(Buffer *buffer, const qintptr socketId);
 
+    void broadcastStatus();
+    void broadcastFolderList();
+
 signals:
     void sendData(const QByteArray &data, const qintptr socketId);
     void kill();
@@ -32,7 +35,6 @@ private:
 
     void broadcastData(const MAbstractWrapper &data, const qintptr socketId);
 
-    void broadcastStatus(const MStatusWrapper &status);
     void sendStatus(const qintptr socketId);
     void setStatus(Buffer *buffer, const qintptr socketId);
 

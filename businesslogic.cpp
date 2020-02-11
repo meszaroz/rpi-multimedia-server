@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <QTimer>
 #include "businesslogic.h"
 #include "./interface/abstractexecuter.h"
 #include "./interface/abstractresource.h"
@@ -77,9 +78,14 @@ void BusinessLogic::broadcastData(const MAbstractWrapper &data, const qintptr so
     }
 }
 
-void BusinessLogic::broadcastStatus(const MStatusWrapper &status)
+void BusinessLogic::broadcastStatus()
 {
-    broadcastData(status, -1);
+    broadcastData(mExecuter->status(), -1);
+}
+
+void BusinessLogic::broadcastFolderList()
+{
+    sendFolderList(-1);
 }
 
 void BusinessLogic::sendStatus(const qintptr socketId)
@@ -94,7 +100,7 @@ void BusinessLogic::setStatus(Buffer *buffer, const qintptr socketId)
     if (tmp.isValid()) {
         QString error = mExecuter->setStatus(tmp);
 
-        if (error.isEmpty()) { broadcastStatus(tmp);       } // status set successfully -> notify all clients
+        if (error.isEmpty()) { broadcastStatus();          } // status set successfully -> notify all clients
         else                 { sendError(error, socketId); } // return error to sender
     }
 }
@@ -123,6 +129,6 @@ void BusinessLogic::sendError(const QString &message, const qintptr socketId)
 // broadcast folder list to all clients
 void BusinessLogic::folderListChanged()
 {
-    sendFolderList(-1);
+    broadcastFolderList();
 }
 

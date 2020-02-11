@@ -2,8 +2,8 @@
 #include <QDebug>
 
 // RESOURCE - STATIC
-QStringList Resource::mSupportedVideoFormats = QStringList() << "*.avi" << "*.m4v" << "*.mp4";
-QStringList Resource::mSupportedImageFormats = QStringList() << "*.jpg" << "*.png";
+QStringList Resource::mSupportedVideoFormats = QStringList() << "*.avi" << "*.m4v"  << "*.mp4" << "*.mkv";
+QStringList Resource::mSupportedImageFormats = QStringList() << "*.jpg" << "*.jpeg" << "*.png";
 
 bool Resource::isResourceDirValid(const QDir &dir)
 {

@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     VlcCommon::setPluginPath(app.applicationDirPath() + "/plugins");
 
     Player        player;
-    BusinessLogic bloc(new Executer(&player), new ResourceContainer(QStringList("/Users/meszaroz/Documents/Movies")));
+    BusinessLogic bloc(new Executer(&player), new ResourceContainer(QStringList("/home/pi/Media")));
     Server        daemon(&bloc);
 
     // Start listening

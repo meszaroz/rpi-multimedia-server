@@ -12,6 +12,7 @@ class Executer : public AbstractExecuter
     Q_OBJECT
 public:
     explicit Executer(Player *player, QObject *parent = 0);
+    ~Executer();
 
     MStatusWrapper status() const;
 
@@ -22,10 +23,10 @@ public slots:
     QString setStatus(const MStatusWrapper &status);
 
 private:
-    Player  *mPlayer;
-    QProcess mStreamProcess;
+    Player   *mPlayer;
+    QProcess *mStreamProcess;
 
-    bool stopStream();
+    void stopStream();
     bool startStream(const QString &file);
 };
 

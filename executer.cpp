@@ -9,9 +9,15 @@
 
 Executer::Executer(Player *player, QObject *parent) :
     AbstractExecuter(parent),
-    mPlayer(player)
+    mPlayer(player),
+    mStreamProcess(nullptr)
 {
     assert(player != nullptr);
+}
+
+Executer::~Executer()
+{
+    stopStream();
 }
 
 MStatusWrapper Executer::status() const
@@ -60,22 +66,25 @@ QString Executer::setStatus(const MStatusWrapper &status)
     return out;
 }
 
-bool Executer::stopStream()
+void Executer::stopStream()
 {
-    if (mStreamProcess.state() != QProcess::NotRunning) {
-        mStreamProcess.close();
-        mStreamProcess.waitForFinished();
-    }
+    if (mStreamProcess != nullptr) {
+        if (mStreamProcess->state() != QProcess::NotRunning) {
+            mStreamProcess->kill();
+        }
 
-    return mStreamProcess.state() == QProcess::NotRunning;
+        delete mStreamProcess;
+        mStreamProcess = nullptr;
+    }
 }
 
 bool Executer::startStream(const QString &file)
 {
-    if (stopStream()) {
-        mStreamProcess.start("./tools/stream-mp4", QStringList(file));
-        mStreamProcess.waitForStarted();
-    }
+    stopStream();
 
-    return mStreamProcess.state() != QProcess::NotRunning;
+    mStreamProcess = new QProcess;
+    mStreamProcess->start("./tools/stream-mp4", QStringList(file));
+    mStreamProcess->waitForStarted();
+
+    return mStreamProcess->state() != QProcess::NotRunning;
 }
