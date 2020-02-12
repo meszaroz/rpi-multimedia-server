@@ -41,7 +41,7 @@ private:
     void sendImage(Buffer *buffer, const qintptr socketId);
     void sendFolderList(const qintptr socketId);
     void sendCheck(const qintptr socketId);
-    void sendError(const QString &message, const qintptr socketId);    
+    void sendMessage(const QString &message, const qintptr socketId);
 };
 
 #endif // BUSINESSLOGIC_H

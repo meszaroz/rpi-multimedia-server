@@ -8,7 +8,7 @@
 class MStatusWrapper : public MAbstractWrapper {
 public:
     MStatusWrapper(Buffer *buffer);
-    MStatusWrapper(const QString &act, const bool &play = false, const int &dura = 0, const int &pos = 0, const int &vol = 50);
+    MStatusWrapper(const QString &act, const EState &state = Idle, const int &dura = 0, const int &pos = 0, const int &vol = 50);
     MStatusWrapper(const StatusContainer &cont);
     MStatusWrapper(const MStatusWrapper &other);
     MStatusWrapper& operator = (const MStatusWrapper &other);

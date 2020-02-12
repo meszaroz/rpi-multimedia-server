@@ -17,7 +17,7 @@ typedef enum EMode {
     Status,
     Image,
     Check,
-    Error,
+    Message,
     Invalid
 } EMode;
 

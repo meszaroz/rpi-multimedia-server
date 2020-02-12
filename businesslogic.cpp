@@ -7,7 +7,7 @@
 #include "./wrapper/mcheckwrapper.h"
 #include "./wrapper/mimagewrapper.h"
 #include "./wrapper/mstatuswrapper.h"
-#include "./wrapper/merrorwrapper.h"
+#include "./wrapper/mmessagewrapper.h"
 
 BusinessLogic::BusinessLogic(AbstractExecuter *executer, AbstractResourceContainer *resources, QObject *parent) :
     AbstractBusinessLogic(parent),
@@ -57,7 +57,7 @@ void BusinessLogic::processData(Buffer *buffer, const qintptr socketId)
                 emit kill();
                 break;
             }
-            case Error  :
+            case Message  :
             case Invalid: {
                 break;
             }
@@ -100,8 +100,8 @@ void BusinessLogic::setStatus(Buffer *buffer, const qintptr socketId)
     if (tmp.isValid()) {
         QString error = mExecuter->setStatus(tmp);
 
-        if (error.isEmpty()) { broadcastStatus();          } // status set successfully -> notify all clients
-        else                 { sendError(error, socketId); } // return error to sender
+        if (error.isEmpty()) { broadcastStatus();            } // status set successfully -> notify all clients
+        else                 { sendMessage(error, socketId); } // return error to sender
     }
 }
 
@@ -121,12 +121,11 @@ void BusinessLogic::sendCheck(const qintptr socketId)
     broadcastData(MCheckWrapper(), socketId);
 }
 
-void BusinessLogic::sendError(const QString &message, const qintptr socketId)
+void BusinessLogic::sendMessage(const QString &message, const qintptr socketId)
 {
-    broadcastData(MErrorWrapper(message), socketId);
+    broadcastData(MMessageWrapper(message), socketId);
 }
 
-// broadcast folder list to all clients
 void BusinessLogic::folderListChanged()
 {
     broadcastFolderList();

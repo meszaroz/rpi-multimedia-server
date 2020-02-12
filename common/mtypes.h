@@ -24,6 +24,7 @@ typedef int32_t  TDim;
 typedef int32_t  TValue;
 typedef uint8_t  TBool;
 typedef uint8_t  TMode;
+typedef uint8_t  TState;
 typedef uint8_t  TCommand;
 typedef uint8_t  TPointer;
 

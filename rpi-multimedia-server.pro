@@ -18,7 +18,6 @@ SOURCES += main.cpp \
     common/mimage.cpp \
     common/mlist.cpp \
     common/mstatus.cpp \
-    common/merror.cpp \
     clientexec.cpp \
     clientsocket.cpp \
     executer.cpp \
@@ -29,11 +28,12 @@ SOURCES += main.cpp \
     wrapper/mabstractwrapper.cpp \
     wrapper/mstatuswrapper.cpp \
     wrapper/mcheckwrapper.cpp \
-    wrapper/merrorwrapper.cpp \
     interface/abstractbusinesslogic.cpp \
     interface/abstractexecuter.cpp \
     interface/abstractresource.cpp \
-    player.cpp
+    player.cpp \
+    common/mmessage.cpp \
+    wrapper/mmessagewrapper.cpp
     #service.cpp \
     #qtservice/src/qtservice_unix.cpp \
     #qtservice/src/qtservice.cpp \
@@ -51,7 +51,6 @@ HEADERS  += \
     common/mlist.h \
     common/mstatus.h \
     common/mtypes.h \
-    common/merror.h \
     clientexec.h \
     clientsocket.h \
     executer.h \
@@ -63,11 +62,12 @@ HEADERS  += \
     wrapper/mabstractwrapper.h \
     wrapper/mstatuswrapper.h \
     wrapper/mcheckwrapper.h \    
-    wrapper/merrorwrapper.h \
     interface/abstractbusinesslogic.h \
     interface/abstractexecuter.h \
     interface/abstractresource.h \
-    player.h
+    player.h \
+    common/mmessage.h \
+    wrapper/mmessagewrapper.h
     #service.h \
     #qtservice/src/qtservice_p.h \
     #qtservice/src/qtservice.h \

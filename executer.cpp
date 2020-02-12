@@ -25,7 +25,7 @@ MStatusWrapper Executer::status() const
 {
     return MStatusWrapper(
                 mPlayer->mediaName(),
-                mPlayer->playing(),
+                mPlayer->state(),
                 mPlayer->duration(),
                 mPlayer->time(),
                 mPlayer->volume());
@@ -57,9 +57,9 @@ QString Executer::setStatus(const MStatusWrapper &status)
     }
     // success -> set status
     else {
-        mPlayer->setTime   (cont->pos );
-        mPlayer->setVolume (cont->vol );
-        mPlayer->setPlaying(cont->play);
+        mPlayer->setTime  (cont->pos  );
+        mPlayer->setVolume(cont->vol  );
+        mPlayer->setState (cont->state);
     }
 
     return out;

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QGridLayout>
+#include "./common/mstatus.h"
 
 class VlcInstance;
 class VlcMedia;
@@ -37,8 +38,8 @@ public:
     int volume() const;
     void setVolume(const int &volume);
 
-    bool playing() const;
-    void setPlaying(const bool &playing);
+    EState state() const;
+    void setState(const EState &state);
 
 signals:
 

@@ -11,9 +11,19 @@
 
 #include "mcommon.h"
 
+typedef enum EState {
+    Idle,
+    Busy,
+    Playing,
+    Paused,
+    Stopped,
+    Ended,
+    Error
+} EState;
+
 typedef struct StatusContainer {
     char     *act;
-    TBool     play;
+    EState    state;
     TDuration dura;
     TSeek     pos;
     TVolume   vol;

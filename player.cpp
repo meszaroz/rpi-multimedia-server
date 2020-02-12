@@ -123,20 +123,35 @@ void Player::setVolume(const int &volume)
     }
 }
 
-bool Player::playing() const
-{
-    return mMedia
-       && (   mPlayer->state() == Vlc::Opening
-           || mPlayer->state() == Vlc::Buffering
-           || mPlayer->state() == Vlc::Playing);
-}
-
-void Player::setPlaying(const bool &playing)
+EState Player::state() const
 {
     if (mMedia) {
-        playing ?
-           mPlayer->play() :
-           mPlayer->pause();
+        switch (mPlayer->state()) {
+            case Vlc::Idle     : return Idle;
+            case Vlc::Opening  :
+            case Vlc::Buffering: return Busy;
+            case Vlc::Playing  : return Playing;
+            case Vlc::Paused   : return Paused;
+            case Vlc::Stopped  : return Stopped;
+            case Vlc::Ended    : return Ended;
+            case Vlc::Error    : return Error;
+        }
+    }
+    return Idle;
+}
+
+void Player::setState(const EState &state)
+{
+    if (mMedia) {
+        switch (state) {
+            case Playing: mPlayer->play();  break;
+            case Paused : mPlayer->pause(); break;
+            case Idle   :
+            case Stopped:
+            case Ended  :
+            case Error  : mPlayer->stop();  break;
+            case Busy   :                   break;
+        }
     }
 }
 

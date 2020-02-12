@@ -4,14 +4,14 @@ MStatusWrapper::MStatusWrapper(Buffer *buffer) :
     mContainer(readStatusContainerFromBuffer(buffer))
 {}
 
-MStatusWrapper::MStatusWrapper(const QString &act, const bool &play, const int &dura, const int &pos, const int &vol) :
+MStatusWrapper::MStatusWrapper(const QString &act, const EState &state, const int &dura, const int &pos, const int &vol) :
     mContainer(createStatusContainer())
 {
     if (mContainer) {
-        mContainer->play = play ? 1 : 0;
-        mContainer->dura = dura;
-        mContainer->pos  = pos;
-        mContainer->vol  = vol;
+        mContainer->state = state;
+        mContainer->dura  = dura;
+        mContainer->pos   = pos;
+        mContainer->vol   = vol;
         copyString(&mContainer->act,act.toStdString().c_str());
     }
 }
