@@ -24,7 +24,9 @@ public:
 
     QString mediaName() const;
     bool hasMediaName() const;
-    bool setMediaName(const QString &mediaName);
+    bool  isMediaName(const QString &mediaName) const;
+    bool setMediaName(const QString &mediaName);    
+    QString mediaId() const;
 
     QString location() const;
     int duration() const;

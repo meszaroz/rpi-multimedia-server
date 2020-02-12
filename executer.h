@@ -27,7 +27,7 @@ private:
     QProcess *mStreamProcess;
 
     void stopStream();
-    bool startStream(const QString &file);
+    bool startStream(const QString &mediaName, const QString &file);
 };
 
 #endif // EXECUTER_H

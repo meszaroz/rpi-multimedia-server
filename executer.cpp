@@ -18,6 +18,7 @@ Executer::Executer(Player *player, QObject *parent) :
 Executer::~Executer()
 {
     stopStream();
+    delete mStreamProcess;
 }
 
 MStatusWrapper Executer::status() const
@@ -38,11 +39,11 @@ QString Executer::setStatus(const MStatusWrapper &status)
 
     if (status.isValid()) {
         if (mPlayer->setMediaName(cont->act)) {
-            if (!startStream(mPlayer->location())) {
+            if (!startStream(mPlayer->mediaId(), mPlayer->location())) {
                 out = "Unable to start stream";
             }
         }
-        else if (mPlayer->mediaName() != QString(cont->act)) {
+        else if (!mPlayer->isMediaName(cont->act)) {
             out = "Media not set";
         }
     }
@@ -68,21 +69,25 @@ void Executer::stopStream()
 {
     if (mStreamProcess != nullptr) {
         if (mStreamProcess->state() != QProcess::NotRunning) {
-            mStreamProcess->kill();
+            mStreamProcess->close();
+            mStreamProcess->waitForFinished();
         }
-
-        delete mStreamProcess;
-        mStreamProcess = nullptr;
+        else {
+            mStreamProcess->deleteLater();
+        }
     }
 }
 
-bool Executer::startStream(const QString &file)
+bool Executer::startStream(const QString &mediaId, const QString &file)
 {
     stopStream();
 
     mStreamProcess = new QProcess;
-    mStreamProcess->start("./tools/stream-mp4", QStringList(file));
+    mStreamProcess->start("./tools/stream-mp4", QStringList() << "-s" << mediaId << file);
     mStreamProcess->waitForStarted();
+
+    connect(mStreamProcess, SIGNAL(finished(int)),
+            mStreamProcess, SLOT  (deleteLater()));
 
     return mStreamProcess->state() != QProcess::NotRunning;
 }

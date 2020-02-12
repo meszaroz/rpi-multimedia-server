@@ -38,6 +38,11 @@ bool Player::hasMediaName() const
     return !mediaName().isEmpty();
 }
 
+bool Player::isMediaName(const QString &mediaName) const
+{
+    return hasMediaName() && this->mediaName() == mediaName;
+}
+
 bool Player::setMediaName(const QString &mediaName)
 {
     Resource resource(mediaName);
@@ -59,13 +64,19 @@ bool Player::setMediaName(const QString &mediaName)
     return out;
 }
 
+QString Player::mediaId() const
+{
+    return hasMediaName() ?
+       QFileInfo(mediaName()).fileName() :
+       QString();
+}
+
 void Player::reset()
 {
     if (mMedia) {
         mPlayer->stop();
         delete mMedia;
         mMedia = nullptr;
-        mPlayer->openOnly(mMedia);
         mMediaName.clear();
     }
 }
